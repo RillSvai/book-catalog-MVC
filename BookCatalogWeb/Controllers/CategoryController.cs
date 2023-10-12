@@ -1,9 +1,9 @@
-﻿using BulkyWeb.Data;
-using BulkyWeb.Models;
+﻿using BookCatalogWeb.Data;
+using BookCatalogWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 
-namespace BulkyWeb.Controllers
+namespace BookCatalogWeb.Controllers
 {
     public class CategoryController : Controller
     {
