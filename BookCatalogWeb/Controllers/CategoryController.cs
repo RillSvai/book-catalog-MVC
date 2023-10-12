@@ -1,7 +1,6 @@
-﻿using BookCatalogWeb.Data;
-using BookCatalogWeb.Models;
+﻿using BookCatalog.DataAccess.Data;
+using BookCatalog.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.RegularExpressions;
 
 namespace BookCatalogWeb.Controllers
 {

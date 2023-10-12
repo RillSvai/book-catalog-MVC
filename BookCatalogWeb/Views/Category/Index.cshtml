@@ -1,53 +1,58 @@
 ﻿@model List<Category>
-<div class="container">
-	<div class="row pt-3 pb-2">
-		<div class="col-6 text">
-			<h2 class="text-primary">
-				Category List
-			</h2>
-		</div>
-		<div class="col-6 text-end">
-			<a class="btn btn-primary" asp-controller="Category" asp-action="Create">
-				<i class="bi bi-plus-square"></i> Create new category
-			</a>
+
+<div class="card shadow mt-4">
+	<div class="card-header bg-dark text-white bg-gradient ml-0 border-0 py-3 rounded-top-2">
+		<div class="row">
+			<div class="col-6 text">
+				<h2 class="text-white">
+					Category List
+				</h2>
+			</div>
+			<div class="col-6 text-end">
+				<a class="btn btn-primary" asp-controller="Category" asp-action="Create">
+					<i class="bi bi-plus-square"></i> Create new category
+				</a>
+			</div>
 		</div>
 	</div>
-	<table class="table table-bordered table-striped table-primary">
-		<thead>
-			<tr>
-				<th>
-					Name of category
-				</th>
-				<th>
-					Display order
-				</th>
-				<th>
-					Data manipulation
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			@for(int i = 0; i < Model.Count(); ++i)
-			{
+	<div class="card-body p-0 rounded-bottom-3">
+		<table class="table table-bordered table-striped table-primary">
+			<thead>
 				<tr>
-					<td>
-						@Model[i].Name
-					</td>
-					<td>
-						@Model[i].DisplayOrder
-					</td>
-					<td>
-						<div class="btn-group w-75" role="group">
-							<a class="btn btn-primary mx-2" asp-controller="Category" asp-action="Edit" asp-route-id="@Model[i].Id">
-								<i class="bi bi-pencil-square"></i> Edit
-							</a>
-							<a class="btn btn-danger mx-2" asp-controller="Category" asp-action="Delete" asp-route-id="@Model[i].Id">
-								<i class="bi bi-trash3-fill"></i> Delete
-							</a>
-						</div>
-					</td>
+					<th>
+						Name of category
+					</th>
+					<th>
+						Display order
+					</th>
+					<th>
+						Data manipulation
+					</th>
 				</tr>
-			}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				@for (int i = 0; i < Model.Count(); ++i)
+				{
+					<tr>
+						<td>
+							@Model[i].Name
+						</td>
+						<td>
+							@Model[i].DisplayOrder
+						</td>
+						<td>
+							<div class="btn-group w-75" role="group">
+								<a class="btn btn-primary mx-2" asp-controller="Category" asp-action="Edit" asp-route-id="@Model[i].Id">
+									<i class="bi bi-pencil-square"></i> Edit
+								</a>
+								<a class="btn btn-danger mx-2" asp-controller="Category" asp-action="Delete" asp-route-id="@Model[i].Id">
+									<i class="bi bi-trash3-fill"></i> Delete
+								</a>
+							</div>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
 </div>
