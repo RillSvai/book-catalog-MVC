@@ -3,23 +3,23 @@
 <form method="post">
 	<div class="border p-3">
 		<div class="row mb-4 p-2 text-center">
-			<h2>Create category</h2>
+			<h2>Delete form</h2>
 		</div>
 		<div class="text-bg-danger bg-opacity-75" asp-validation-summary="All"></div>
 		<div class="row mb-3">
 			<label class="p-0 text-primary form-label" asp-for="Name"></label>
-			<input class="form-control  mt-1" asp-for="Name" placeholder="Type name of category..." />
+			<input class="form-control  mt-1" asp-for="Name" disabled placeholder="Type name of category..." />
 			<span class="text-danger" asp-validation-for="Name"></span>
 		</div>
 		<div class="row mb-3">
 			<label class="p-0 text-primary form-label" asp-for="DisplayOrder"></label>
-			<input class="form-control  mt-1" asp-for="DisplayOrder" placeholder="Type display of category..." />
+			<input class="form-control  mt-1" asp-for="DisplayOrder" disabled placeholder="Type display of category..." />
 			<span class="text-danger" asp-validation-for="DisplayOrder"></span>
 		</div>
 		<div class="row">
 			<div class="col-md-3 col-6">
-				<button type="submit" class="btn btn-primary form-control text-nowrap">
-					Create
+				<button type="submit" class="btn btn-danger form-control text-nowrap">
+					Delete category
 				</button>
 			</div>
 			<div class="col-md-3 col-6">
@@ -32,8 +32,8 @@
 </form>
 
 @section Scripts
-{
+	{
 	@{
-	<partial name="_ValidationScriptsPartial"></partial>
+		<partial name="_ValidationScriptsPartial"></partial>
 	}
 }
