@@ -1,0 +1,41 @@
+﻿@model List<Category>
+
+<div class="container">
+	<div class="row pt-3 pb-2">
+		<div class="col-6 text">
+			<h2 class="text-primary">
+				Category List
+			</h2>
+		</div>
+		<div class="col-6 text-end">
+			<a class="btn btn-primary" asp-controller="Category" asp-action="Create">
+				<i class="bi bi-plus-square"></i> Create new category
+			</a>
+		</div>
+	</div>
+	<table class="table table-bordered table-striped table-primary">
+		<thead>
+			<tr>
+				<th>
+					Name of category
+				</th>
+				<th>
+					Display order
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for(int i = 0; i < Model.Count(); ++i)
+			{
+				<tr>
+					<td>
+						@Model[i].Name
+					</td>
+					<td>
+						@Model[i].DisplayOrder
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
