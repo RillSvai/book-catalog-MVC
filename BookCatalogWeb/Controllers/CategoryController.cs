@@ -1,4 +1,5 @@
 ﻿using BookCatalog.DataAccess.Data;
+using BookCatalog.DataAccess.Repository.IRepository;
 using BookCatalog.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,14 +7,14 @@ namespace BookCatalogWeb.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        public CategoryController(ApplicationDbContext db) 
+        private readonly ICategoryRepository _categoryRepo;
+        public CategoryController(ICategoryRepository categoryRepo) 
         {
-            _db = db;
+            _categoryRepo = categoryRepo;
         }
         public IActionResult Index()
         {
-            List<Category> categoryList = _db.Categories.ToList();
+            List<Category> categoryList = _categoryRepo.GetAll().ToList();
             return View(categoryList);
         }
         [HttpGet]
@@ -27,8 +28,8 @@ namespace BookCatalogWeb.Controllers
             if (ModelState.IsValid) 
             {
                 TempData["success"] = "Category created successfully!";
-				_db.Categories.Add(obj);
-				_db.SaveChanges();
+				_categoryRepo.Add(obj);
+				_categoryRepo.Save();
 				return RedirectToAction("Index", "Category");
 			}
             return View();
@@ -39,7 +40,7 @@ namespace BookCatalogWeb.Controllers
             {
                 return NotFound();
             }
-            Category? category = _db.Categories.FirstOrDefault(category => category.Id == id);
+			Category? category = _categoryRepo.Get(category => category.Id == id);
             if (category == null) 
             {
                 return NotFound();
@@ -52,9 +53,9 @@ namespace BookCatalogWeb.Controllers
 			if (ModelState.IsValid)
 			{
 				TempData["success"] = "Category updated successfully!";
-				_db.Categories.Update(obj);
-				_db.SaveChanges();
-				return RedirectToAction("Index", "Category");
+                _categoryRepo.Update(obj);
+                _categoryRepo.Save();
+                return RedirectToAction("Index", "Category");
 			}
 			return View();
 		}
@@ -64,8 +65,8 @@ namespace BookCatalogWeb.Controllers
 			{
 				return NotFound();
 			}
-			Category? category = _db.Categories.FirstOrDefault(category => category.Id == id);
-			if (category == null)
+			Category? category = _categoryRepo.Get(category => category.Id == id);
+            if (category == null)
 			{
 				return NotFound();
 			}
@@ -74,8 +75,8 @@ namespace BookCatalogWeb.Controllers
 		[HttpPost]
 		public IActionResult Delete(Category obj)
 		{
-			_db.Categories.Remove(obj);
-			_db.SaveChanges();
+			_categoryRepo.Remove(obj);
+			_categoryRepo.Save();
 			TempData["success"] = "Category deleted successfully!";
 			return RedirectToAction("Index", "Category");
 		}
