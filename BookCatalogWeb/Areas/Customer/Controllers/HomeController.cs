@@ -2,8 +2,9 @@
 using System.Diagnostics;
 using BookCatalog.Models;
 
-namespace BookCatalogWeb.Controllers
+namespace BookCatalogWeb.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

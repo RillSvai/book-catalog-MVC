@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookCatalog.DataAccess.Repository.IRepository
 {
-    internal interface IUnitOfWork
+    public interface IUnitOfWork
     {
+        public ICategoryRepository? CategoryRepo { get; }
+        public void Save();
     }
 }
