@@ -57,14 +57,32 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
 				{
 					string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
 					string productPath = Path.Combine(wwwRootPath, @"images\product");
+
+					if (!string.IsNullOrEmpty(productVM.Product.ImageUrl)) 
+					{
+						var oldImagePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
+						if (System.IO.File.Exists(oldImagePath)) 
+						{
+							System.IO.File.Delete(oldImagePath);
+						}
+
+					}
 					using (var fileStream = new FileStream(Path.Combine(productPath, fileName),FileMode.Create)) 
 					{
 						file.CopyTo(fileStream);
 					}
 					productVM.Product.ImageUrl = @"\images\product\" + fileName;
 				}
-				TempData["success"] = "Product created successfully!";
-				_unitOfWork!.ProductRepo!.Add(productVM.Product);
+				if (productVM.Product.Id != 0) 
+				{
+					_unitOfWork.ProductRepo.Update(productVM.Product);
+					TempData["success"] = "Product updated successfully!";
+				}
+				else 
+				{
+					_unitOfWork!.ProductRepo!.Add(productVM.Product);
+					TempData["success"] = "Product created successfully!";
+				}
 				_unitOfWork.Save();
 				return RedirectToAction("Index", "Product");
 			}
