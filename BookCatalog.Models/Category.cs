@@ -16,5 +16,9 @@ namespace BookCatalog.Models
         [DisplayName("Display Order")]
         [Range(1, 100, ErrorMessage = "Value should be beetwen 1 and 100! Розбійнику")]
         public int DisplayOrder { get; set; }
-    }
+		public override string ToString()
+		{
+			return Name!;
+		}
+	}
 }

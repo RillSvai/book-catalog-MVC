@@ -35,7 +35,8 @@ namespace BookCatalog.DataAccess.Data
                     Price=90,
                     Price50=85,
                     Price100=80,
-                    CategoryId = 3
+                    CategoryId = 3,
+                    ImageUrl = ""
                 },
                 new Product
                 {
@@ -48,8 +49,9 @@ namespace BookCatalog.DataAccess.Data
                     Price = 30,
                     Price50 = 25,
                     Price100 = 20,
-                    CategoryId = 5
-                },
+                    CategoryId = 5,
+					ImageUrl = ""
+				},
                 new Product
                 {
                     Id = 3,
@@ -61,8 +63,9 @@ namespace BookCatalog.DataAccess.Data
                     Price = 50,
                     Price50 = 40,
                     Price100 = 35,
-                    CategoryId = 3
-                },
+                    CategoryId = 3,
+					ImageUrl = ""
+				},
                 new Product
                 {
                     Id = 4,
@@ -74,8 +77,9 @@ namespace BookCatalog.DataAccess.Data
                     Price = 65,
                     Price50 = 60,
                     Price100 = 55,
-                    CategoryId = 6
-                },
+                    CategoryId = 6,
+					ImageUrl = ""
+				},
                 new Product
                 {
                     Id = 5,
@@ -87,8 +91,9 @@ namespace BookCatalog.DataAccess.Data
                     Price = 27,
                     Price50 = 25,
                     Price100 = 20,
-                    CategoryId = 4
-                },
+                    CategoryId = 4,
+					ImageUrl = ""
+				},
                 new Product
                 {
                     Id = 6,
@@ -100,8 +105,9 @@ namespace BookCatalog.DataAccess.Data
                     Price = 23,
                     Price50 = 22,
                     Price100 = 20,
-                    CategoryId = 5
-                }
+                    CategoryId = 5,
+					ImageUrl = ""
+				}
             });
         }
     }

@@ -1,6 +1,7 @@
 ﻿using BookCatalog.DataAccess.Data;
 using BookCatalog.DataAccess.Repository.IRepository;
 using BookCatalog.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,10 @@ namespace BookCatalog.DataAccess.Repository
         public void Update(Product product)
         {
             _db.Update(product);
+        }
+        public override IEnumerable<Product> GetAll() 
+        {
+            return _db.Products.Include("Category").ToList();
         }
     }
 }

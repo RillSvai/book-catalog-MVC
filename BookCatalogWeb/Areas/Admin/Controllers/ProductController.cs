@@ -1,7 +1,9 @@
 ﻿using BookCatalog.DataAccess.Repository.IRepository;
 using BookCatalog.Models;
+using BookCatalog.Models.ViewModels;
 using BookCatalog.Utility;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using NuGet.Packaging.Signing;
 using System.Text.RegularExpressions;
 
@@ -12,71 +14,69 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
 	public class ProductController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
-		public ProductController(IUnitOfWork unitOfWork)
+		private readonly IWebHostEnvironment _webHostEnvironment;
+		public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
 		{
 			_unitOfWork = unitOfWork;
+			_webHostEnvironment = webHostEnvironment;
 		}
 		public IActionResult Index()
 		{
 			List<Product> products = _unitOfWork!.ProductRepo!.GetAll().ToList();
 			return View(products);
 		}
-		public IActionResult Create() 
+		public IActionResult Upsert(int? id)
 		{
-			return View(_unitOfWork?.ProductRepo?.Get(product => product.Id == 1) ?? new Product());
+			ProductVM productVM = new ProductVM()
+			{
+				Product = new Product(),
+				CategoryList = _unitOfWork.CategoryRepo!.GetAll().Select(category => new SelectListItem
+				{
+					Text = category.Name,
+					Value = category.Id.ToString(),
+				})
+			};
+			if (id != 0 && id != null) 
+			{
+				productVM.Product = _unitOfWork.ProductRepo.Get(category => category.Id == id);
+			}
+			return View(productVM);
 		}
 		[HttpPost]
-		public IActionResult Create(Product product) 
+		public IActionResult Upsert(ProductVM productVM, IFormFile? file) 
 		{
-			if (GeneralValidator.IsStringTooShort(product?.Author,3)) 
+			
+			if (GeneralValidator.IsStringTooShort(productVM.Product.Author ?? null,3)) 
 			{
 				ModelState.AddModelError("Author", "Length of author`s name should be at lest 3 symbols!");
-			}
-			if (_unitOfWork!.CategoryRepo!.Get(category => category.Id == product!.CategoryId) == default) 
-			{
-				ModelState.AddModelError("CategoryId", $"Category with id:{product!.CategoryId} not founded");
 			}
 			if (ModelState.IsValid) 
 			{
+				string wwwRootPath = _webHostEnvironment.WebRootPath;
+				if (file != null) 
+				{
+					string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+					string productPath = Path.Combine(wwwRootPath, @"images\product");
+					using (var fileStream = new FileStream(Path.Combine(productPath, fileName),FileMode.Create)) 
+					{
+						file.CopyTo(fileStream);
+					}
+					productVM.Product.ImageUrl = @"\images\product\" + fileName;
+				}
 				TempData["success"] = "Product created successfully!";
-				_unitOfWork!.ProductRepo!.Add(product!);
+				_unitOfWork!.ProductRepo!.Add(productVM.Product);
 				_unitOfWork.Save();
 				return RedirectToAction("Index", "Product");
 			}
-			return View();
-		}
-		public IActionResult Edit(int? id)
-		{
-			if (id == null)
+			else 
 			{
-				return NotFound();
+				productVM.CategoryList = _unitOfWork.CategoryRepo!.GetAll().Select(category => new SelectListItem
+				{
+					Text = category.Name,
+					Value = category.Id.ToString(),
+				});
+				return View(productVM);
 			}
-			Product? product = _unitOfWork!.ProductRepo!.Get(category => category.Id == id);
-			if (product == null)
-			{
-				return NotFound();
-			}
-			return View(product);
-		}
-		[HttpPost]
-		public IActionResult Edit(Product product)
-		{
-			if (GeneralValidator.IsStringTooShort(product?.Author, 3))
-			{
-				ModelState.AddModelError("Author", "Length of author`s name should be at lest 3 symbols!");
-			}
-			if (_unitOfWork!.CategoryRepo!.Get(category => category.Id == product!.CategoryId) == default)
-			{
-				ModelState.AddModelError("CategoryId", $"Category with id:{product!.CategoryId} not founded");
-			}
-			if (ModelState.IsValid)
-			{
-				TempData["success"] = "Product updated successfully!";
-				_unitOfWork!.ProductRepo!.Update(product);
-				_unitOfWork.Save();
-				return RedirectToAction("Index", "Product");
-			}
-			return View();
 		}
 		public IActionResult Delete(int? id)
 		{

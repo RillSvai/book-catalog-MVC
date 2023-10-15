@@ -9,7 +9,7 @@
 				</h2>
 			</div>
 			<div class="col-6 text-end">
-				<a class="btn btn-primary" asp-controller="Product" asp-action="Create">
+				<a class="btn btn-primary" asp-controller="Product" asp-action="Upsert">
 					<i class="bi bi-plus-square"></i> Create new product
 				</a>
 			</div>
@@ -23,25 +23,16 @@
 						Title of product
 					</th>
 					<th>
-						Description
-					</th>
-					<th>
 						ISBN
 					</th>
 					<th>
 						Author
 					</th>
 					<th>
-						List Price
+						Price
 					</th>
 					<th>
-						Price 1-49
-					</th>
-					<th>
-						Price 50-99
-					</th>
-					<th>
-						Price 100+
+						Name of category
 					</th>
 					<th>
 						Data Manipulation
@@ -56,9 +47,6 @@
 							@obj.Title
 						</td>
 						<td>
-							@obj.Description
-						</td>
-						<td>
 							@obj.ISBN
 						</td>
 						<td>
@@ -68,17 +56,11 @@
 							@obj.ListPrice
 						</td>
 						<td>
-							@obj.Price
-						</td>
-						<td>
-							@obj.Price50
-						</td>
-						<td>
-							@obj.Price100
+							@obj.Category
 						</td>
 						<td>
 							<div class="btn-group w-75" role="group">
-								<a class="btn btn-primary mx-2 rounded-1" asp-controller="Product" asp-action="Edit" asp-route-id="@obj.Id">
+								<a class="btn btn-primary mx-2 rounded-1" asp-controller="Product" asp-action="Upsert" asp-route-id="@obj.Id">
 									<i class="bi bi-pencil-square"></i> Edit
 								</a>
 								<a class="btn btn-danger mx-2 rounded-1" asp-controller="Product" asp-action="Delete" asp-route-id="@obj.Id">
