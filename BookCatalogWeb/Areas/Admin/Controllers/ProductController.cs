@@ -117,5 +117,13 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
 			TempData["success"] = "Product deleted successfully!";
 			return RedirectToAction("Index", "Product");
 		}
+		#region
+		[HttpGet]
+		public IActionResult GetAll() 
+		{
+			List<Product> products = _unitOfWork!.ProductRepo!.GetAll().ToList();
+			return Json(new { data = products });
+		}
+		#endregion
 	}
 }
