@@ -15,9 +15,13 @@ namespace BookCatalog.DataAccess.Repository
         {
             _db = db;
             CategoryRepo = new CategoryRepository(db);
+            ProductRepo = new ProductRepository(db);
         }
         public ICategoryRepository? CategoryRepo { get; private set; }
-        public void Save()
+
+		public IProductRepository? ProductRepo { get; private set; }
+
+	    public void Save()
         {
             _db.SaveChanges();
         }

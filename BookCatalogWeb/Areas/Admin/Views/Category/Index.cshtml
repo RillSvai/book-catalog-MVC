@@ -31,21 +31,21 @@
 				</tr>
 			</thead>
 			<tbody>
-				@for (int i = 0; i < Model.Count(); ++i)
+				@foreach (Category obj in Model.OrderBy(category => category.DisplayOrder))
 				{
 					<tr>
 						<td>
-							@Model[i].Name
+							@obj.Name
 						</td>
 						<td>
-							@Model[i].DisplayOrder
+							@obj.DisplayOrder
 						</td>
 						<td>
 							<div class="btn-group w-75" role="group">
-								<a class="btn btn-primary mx-2 rounded-1" asp-controller="Category" asp-action="Edit" asp-route-id="@Model[i].Id">
+								<a class="btn btn-primary mx-2 rounded-1" asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id">
 									<i class="bi bi-pencil-square"></i> Edit
 								</a>
-								<a class="btn btn-danger mx-2 rounded-1" asp-controller="Category" asp-action="Delete" asp-route-id="@Model[i].Id">
+								<a class="btn btn-danger mx-2 rounded-1" asp-controller="Category" asp-action="Delete" asp-route-id="@obj.Id">
 									<i class="bi bi-trash3-fill"></i> Delete
 								</a>
 							</div>

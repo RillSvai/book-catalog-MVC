@@ -9,6 +9,7 @@ namespace BookCatalog.DataAccess.Repository.IRepository
     public interface IUnitOfWork
     {
         public ICategoryRepository? CategoryRepo { get; }
+        public IProductRepository? ProductRepo { get; }
         public void Save();
     }
 }
