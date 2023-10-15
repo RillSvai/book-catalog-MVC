@@ -12,11 +12,14 @@ namespace BookCatalog.Models
         [Key]
         public int Id { get; set; }
         [Required]
+        [MinLength(3)]
         public string? Title { get;set; }
         public string? Description { get; set; }
         [Required]
         public string? ISBN { get; set; }
         [Required]
+        [MinLength(3,ErrorMessage = "Name too short, should be at least 3 letters")]
+        [RegularExpression(@"[A-Za-z\s]+")]
         public string? Author { get; set; }
         [Required]
         [Range(0, 1000)]
@@ -35,7 +38,7 @@ namespace BookCatalog.Models
         [Range(0, 1000)]
         [Display(Name = "Price for 100+")]
         public double Price100 { get; set; }
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public Category? Category { get; set; }
 
 

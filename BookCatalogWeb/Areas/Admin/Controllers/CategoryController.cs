@@ -1,7 +1,9 @@
 ﻿using BookCatalog.DataAccess.Data;
 using BookCatalog.DataAccess.Repository.IRepository;
 using BookCatalog.Models;
+using BookCatalog.Utility;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 
 namespace BookCatalogWeb.Areas.Admin.Controllers
 {
@@ -26,7 +28,11 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Category obj)
         {
-            if (ModelState.IsValid)
+			if (GeneralValidator.IsStringTooShort(obj.Name,3))
+			{
+				ModelState.AddModelError("Author", "Length of name should be at lest 3 symbols!");
+			}
+			if (ModelState.IsValid)
             {
                 TempData["success"] = "Category created successfully!";
                 _unitOfWork!.CategoryRepo!.Add(obj);
@@ -51,7 +57,11 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Edit(Category obj)
         {
-            if (ModelState.IsValid)
+			if (GeneralValidator.IsStringTooShort(obj.Name, 3))
+			{
+				ModelState.AddModelError("Author", "Length of name should be at lest 3 symbols!");
+			}
+			if (ModelState.IsValid)
             {
                 TempData["success"] = "Category updated successfully!";
                 _unitOfWork!.CategoryRepo!.Update(obj);

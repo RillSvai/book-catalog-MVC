@@ -11,7 +11,7 @@ namespace BookCatalog.Models
         [MaxLength(30)]
         [MinLength(3, ErrorMessage = "String too short, should be at least 3 letters")]
         [Required(ErrorMessage = "Name of category required! Ти що здурів?")]
-        [RegularExpression(@"[A-Za-z]+", ErrorMessage = "Name of category should contain only letters!")]
+        [RegularExpression(@"[A-Za-z\s]+", ErrorMessage = "Name of category should contain only letters!")]
         public string? Name { get; set; }
         [DisplayName("Display Order")]
         [Range(1, 100, ErrorMessage = "Value should be beetwen 1 and 100! Розбійнику")]
