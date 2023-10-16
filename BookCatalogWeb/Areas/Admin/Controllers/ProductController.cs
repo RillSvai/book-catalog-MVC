@@ -2,16 +2,19 @@
 using BookCatalog.Models;
 using BookCatalog.Models.ViewModels;
 using BookCatalog.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NuGet.Packaging.Signing;
+using System.Data;
 using System.Text.RegularExpressions;
 
 namespace BookCatalogWeb.Areas.Admin.Controllers
 {
 
 	[Area("Admin")]
-	public class ProductController : Controller
+    [Authorize(Roles = SD.Role_Admin)]
+    public class ProductController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IWebHostEnvironment _webHostEnvironment;

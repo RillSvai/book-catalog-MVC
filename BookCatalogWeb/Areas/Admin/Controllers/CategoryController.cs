@@ -2,12 +2,14 @@
 using BookCatalog.DataAccess.Repository.IRepository;
 using BookCatalog.Models;
 using BookCatalog.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 
 namespace BookCatalogWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
