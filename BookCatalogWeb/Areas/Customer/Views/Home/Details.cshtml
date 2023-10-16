@@ -1,0 +1,68 @@
+﻿@model Product
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient text-light py-4">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h3 class="text-primary fw-bold text-uppercase">@Model.Title</h3>
+                <p class="fw-semibold text-danger mb-0">by @Model.Author</p>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="py-3">
+            <div class="row">
+                <div class="col-6 col-md-2 offset-lg-1 pb-1">
+                    <a class="btn btn-primary bg-gradient mb-5 fw-semibold  text-uppercase" asp-area="Customer" asp-controller="Home" asp-action="Index">
+                        <small>Back to home</small>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3">
+                    <img src="@Model.ImageUrl" width="100%" class="rounded" />
+                </div>
+                <div class="col-12 col-lg-6 offset-lg-1">
+                    <div class="col-12 col-md-6 pb-4">
+                        <span class="text-primary badge fw-bold">@Model.Category.Name</span>
+                    </div>
+                    <div class="row ps-2">
+                        <h6 class="text-dark fw-bold">ISBN : @Model.ISBN</h6>
+                    </div>
+                    <div class="row ps-2">
+                        <h6 class="fw-bold text-opacity-50  pb-2">
+                            List Price:
+                            <span class="text-decoration-line-through fw-bold">
+                                @Model.ListPrice
+                            </span>
+                        </h6>
+                    </div>
+                    <div class="row text-center ps-2">
+                        <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                            <div class="fw-bold">Price</div>
+                        </div>
+                        <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                            <div class="fw-bold">Price50</div>
+                        </div>
+                        <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                            <div class="fw-bold">Price100</div>
+                        </div>
+                    </div>
+                    <div class="row text-center ps-2">
+                        <div class="p-1 col-3 col-lg-2 text-warning fw-bold">
+                            <div>@Model.Price.ToString("c")</div>
+                        </div>
+                        <div class="p-1 col-3 col-lg-2 text-warning fw-bold">
+                            <div>@Model.Price50.ToString("c")</div>
+                        </div>
+                        <div class="p-1 col-3 col-lg-2 text-warning fw-bold">
+                            <div>@Model.Price100.ToString("c")</div>
+                        </div>
+                    </div>
+                    <div class="row pl-2 my-3">
+                        <p class="fw-bold">@Html.Raw(Model.Description)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,16 +2,11 @@
 using BookCatalog.DataAccess.Repository.IRepository;
 using BookCatalog.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookCatalog.DataAccess.Repository
 {
-    public class ProductRepository : Repository<Product>,IProductRepository
+	public class ProductRepository : Repository<Product>,IProductRepository
     {
         private readonly ApplicationDbContext _db;
         public ProductRepository(ApplicationDbContext db) : base(db)
@@ -26,6 +21,10 @@ namespace BookCatalog.DataAccess.Repository
         public override IEnumerable<Product> GetAll() 
         {
             return _db.Products.Include("Category").ToList();
+        }
+        public override Product Get(Expression<Func<Product,bool>> filter) 
+        {
+            return _db.Products.Include("Category").FirstOrDefault(filter);
         }
     }
 }

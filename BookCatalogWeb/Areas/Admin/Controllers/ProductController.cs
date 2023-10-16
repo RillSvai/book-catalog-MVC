@@ -96,28 +96,25 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
 				return View(productVM);
 			}
 		}
+		#region API Calls
+		[HttpDelete]
 		public IActionResult Delete(int? id)
 		{
-			if (id == null)
+			Product product = _unitOfWork.ProductRepo.Get(product => product.Id == id);
+			if (product == null) 
 			{
-				return NotFound();
+				return Json(new { success = false, message = "Error while deleting" });
 			}
-			Product? product = _unitOfWork!.ProductRepo!.Get(category => category.Id == id);
-			if (product == null)
+			string wwwRootPath = _webHostEnvironment.WebRootPath;
+			var oldImagePath = Path.Combine(wwwRootPath, product.ImageUrl.TrimStart('\\'));
+			if (System.IO.File.Exists(oldImagePath))
 			{
-				return NotFound();
+				System.IO.File.Delete(oldImagePath);
 			}
-			return View(product);
-		}
-		[HttpPost]
-		public IActionResult Delete(Product obj)
-		{
-			_unitOfWork!.ProductRepo!.Remove(obj);
+			_unitOfWork.ProductRepo.Remove(product);
 			_unitOfWork.Save();
-			TempData["success"] = "Product deleted successfully!";
-			return RedirectToAction("Index", "Product");
+			return Json(new { success = true, message = "Delete successfull" });
 		}
-		#region
 		[HttpGet]
 		public IActionResult GetAll() 
 		{
