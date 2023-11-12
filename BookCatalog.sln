@@ -5,11 +5,13 @@ VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookCatalogWeb", "BookCatalogWeb\BookCatalogWeb.csproj", "{5A33EB98-A6C0-4EE3-8674-9EAC2BD761E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookCatalog.DataAccess", "BookCatalog.DataAccess\BookCatalog.DataAccess.csproj", "{79AE79D4-0916-42BB-8894-9A6A0F2CF3CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookCatalog.DataAccess", "BookCatalog.DataAccess\BookCatalog.DataAccess.csproj", "{79AE79D4-0916-42BB-8894-9A6A0F2CF3CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookCatalog.Models", "BookCatalog.Models\BookCatalog.Models.csproj", "{DAC0072B-F3AE-498A-980D-5AC8E8C06D8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookCatalog.Models", "BookCatalog.Models\BookCatalog.Models.csproj", "{DAC0072B-F3AE-498A-980D-5AC8E8C06D8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookCatalog.Utility", "BookCatalog.Utility\BookCatalog.Utility.csproj", "{15C36E73-892A-4C5A-9DD4-B12347CB0EAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookCatalog.Utility", "BookCatalog.Utility\BookCatalog.Utility.csproj", "{15C36E73-892A-4C5A-9DD4-B12347CB0EAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookCatalogWeb.Tests", "BookCatalogWeb.Tests\BookCatalogWeb.Tests.csproj", "{8D764891-0FA0-4DBD-AFF2-2A0C32FCBDDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{15C36E73-892A-4C5A-9DD4-B12347CB0EAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15C36E73-892A-4C5A-9DD4-B12347CB0EAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15C36E73-892A-4C5A-9DD4-B12347CB0EAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D764891-0FA0-4DBD-AFF2-2A0C32FCBDDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D764891-0FA0-4DBD-AFF2-2A0C32FCBDDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D764891-0FA0-4DBD-AFF2-2A0C32FCBDDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D764891-0FA0-4DBD-AFF2-2A0C32FCBDDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
