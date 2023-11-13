@@ -49,7 +49,6 @@ namespace BookCatalogWeb.Tests.Controller
             category.Name = "Test";
             category.Id = 0;
             category.DisplayOrder = 1;
-            A.CallTo(() => _unitOfWork.CategoryRepo!.Add(category));
             _categoryController.TempData = new TempDataDictionary(A.Fake<HttpContext>(), A.Fake<ITempDataProvider>());
             //Act
             var result = _categoryController.Create(category);
