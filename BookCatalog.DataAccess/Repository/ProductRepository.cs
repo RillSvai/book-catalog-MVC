@@ -22,9 +22,10 @@ namespace BookCatalog.DataAccess.Repository
         {
             return _db.Products.Include("Category").ToList();
         }
-        public override Product Get(Expression<Func<Product,bool>> filter) 
+        public override Product? Get(Expression<Func<Product,bool>> filter, bool isTracked = true) 
         {
-            return _db.Products.Include("Category").FirstOrDefault(filter);
+            return isTracked ? _db.Products.Include("Category").FirstOrDefault(filter)
+                : _db.Products.Include("Category").AsNoTracking().FirstOrDefault(filter);
         }
     }
 }

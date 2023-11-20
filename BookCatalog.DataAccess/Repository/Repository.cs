@@ -17,7 +17,7 @@ namespace BookCatalog.DataAccess.Repository
             _db = db;
             _dbSet = _db.Set<T>();
         }
-        public void Add(T entity)
+        public virtual void Add(T entity)
         {
             _dbSet.Add(entity);
         }
@@ -27,9 +27,10 @@ namespace BookCatalog.DataAccess.Repository
            _db.AddRange(entities);
         }
 
-        public virtual T? Get(Expression<Func<T, bool>> filter)
+        public virtual T? Get(Expression<Func<T, bool>> filter, bool isTracked = false)
         {
-            return _dbSet.Where(filter).FirstOrDefault();
+            IQueryable<T> query = isTracked ? _dbSet : _dbSet.AsNoTracking();
+            return query.Where(filter).FirstOrDefault();
         }
 
         public virtual IEnumerable<T> GetAll()
