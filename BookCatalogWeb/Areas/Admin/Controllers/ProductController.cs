@@ -25,8 +25,7 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
 		}
 		public IActionResult Index()
 		{
-			List<Product> products = _unitOfWork!.ProductRepo!.GetAll().ToList();
-			return View(products);
+			return View();
 		}
 		public IActionResult Upsert(int? id)
 		{

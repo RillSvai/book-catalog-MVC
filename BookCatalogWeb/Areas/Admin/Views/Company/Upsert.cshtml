@@ -1,0 +1,81 @@
+﻿@model Company
+<div class="card shadow mt-4">
+	<div class ="card-header bg-dark text-white bg-gradient ml-0 py-3 rounded-top-2">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="py-2">@(Model.Id == 0 ? "Create Company" : "Update Company")</h2>
+			</div>
+		</div>
+	</div>
+	<div class="card-body border border-1 border-primary p-3 rounded-bottom-3">
+		<form method="post" class="row px-3" enctype="multipart/form-data">
+			<input asp-for="Id" hidden />
+			<div class="row">
+				<div class="col-10">
+					<div class="border px-3">
+						<div class="text-bg-danger bg-opacity-75" asp-validation-summary="All"></div>
+						<div class="row mb-3">
+							<label class="p-0 text-primary form-label" asp-for="Name"></label>
+							<input class="form-control  mt-1" asp-for="Name" placeholder="Type name of company..." />
+							<span class="text-danger" asp-validation-for="Name"></span>
+						</div>
+						<div class="row mb-3">
+							<label class="p-0 text-primary form-label" asp-for="StreetAddress"></label>
+							<input class="form-control  mt-1" asp-for="StreetAddress" placeholder="Type street address of company..." />
+							<span class="text-danger" asp-validation-for="StreetAddress"></span>
+						</div>
+						<div class="row mb-3">
+							<label class="p-0 text-primary form-label" asp-for="City"></label>
+							<input class="form-control  mt-1" asp-for="City" placeholder="Type city of company..." />
+							<span class="text-danger" asp-validation-for="City"></span>
+						</div>
+						<div class="row mb-3">
+							<label class="p-0 text-primary form-label" asp-for="State"></label>
+							<input class="form-control  mt-1" asp-for="State" placeholder="Type state of company..." />
+							<span class="text-danger" asp-validation-for="State"></span>
+						</div>
+						<div class="row mb-3">
+							<label class="p-0 text-primary form-label" asp-for="PostalCode"></label>
+							<input class="form-control  mt-1" asp-for="PostalCode" placeholder="Type postal code of company..." />
+							<span class="text-danger" asp-validation-for="PostalCode"></span>
+						</div>
+						<div class="row mb-3">
+							<label class="p-0 text-primary form-label" asp-for="PhoneNumber"></label>
+							<input class="form-control  mt-1" asp-for="PhoneNumber" placeholder="Type phone number of company..." />
+							<span class="text-danger" asp-validation-for="PhoneNumber"></span>
+						</div>
+						<div class="row">
+							<div class="col-md-3 col-6">
+								@if (Model.Id == 0)
+								{
+									<button type="submit" class="btn btn-primary form-control text-nowrap">
+										Create
+									</button>
+								}
+								else
+								{
+									<button type="submit" class="btn btn-primary form-control text-nowrap">
+										Update
+									</button>
+								}
+
+							</div>
+							<div class="col-md-3 col-6">
+								<a asp-controller="Company" asp-action="Index" class="btn btn-dark border form-control text-nowrap">
+									Back to list
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+@section Scripts
+{
+	@{
+	<partial name="_ValidationScriptsPartial"></partial>
+	}
+}

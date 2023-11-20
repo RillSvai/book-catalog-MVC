@@ -44,13 +44,19 @@
                 </div>
                 <div class="form-floating mb-3 col-md-3">
                     <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
-                        <option selected disabled>--Select Role--</option>
+                        <option selected disabled>---Select Role---</option>
                     </select>
                 </div>
+                
                 <div class="form-floating mb-3 col-md-9">
                     <input asp-for="Input.PhoneNumber" class="form-control" placeholder="your phone number" />
                     <label asp-for="Input.PhoneNumber">Phone Number</label>
                     <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3 col-md-3">
+                    <select asp-for="Input.CompanyId"  asp-items="@Model.Input.CompanyList" style="display:none" class="form-select">
+                        <option selected disabled>---Select Company---</option>
+                    </select>
                 </div>
                 <div class="col-12">
                     <button id="registerSubmit" type="submit" class="form-control btn btn-primary rounded">Register</button>
@@ -65,25 +71,25 @@
             @{
                 if ((Model.ExternalLogins?.Count ?? 0) == 0)
                 {
-                    <!--<div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>-->
+                                        <!--<div>
+                                            <p>
+                                                There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
+                                                about setting up this ASP.NET application to support logging in via external services</a>.
+                                            </p>
+                                        </div>-->
                 }
                 else
                 {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
+                                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                            <div>
+                                                <p>
+                                                    @foreach (var provider in Model.ExternalLogins!)
                                 {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
                                 }
-                            </p>
-                        </div>
-                    </form>
+                                                </p>
+                                            </div>
+                                        </form>
                 }
             }
         </section>
@@ -92,4 +98,21 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(() => 
+        {
+            $('#Input_Role').change(() => 
+            {
+                var selection = $('#Input_Role Option:Selected').text();
+                if (selection === 'Company') 
+                {
+                    $('#Input_CompanyId').show()
+                }
+                else 
+                {
+                    $('#Input_CompanyId').hide()
+                }
+            })
+        })
+    </script>
 }

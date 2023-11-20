@@ -3,6 +3,7 @@
 #nullable disable
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using BookCatalog.DataAccess.Repository.IRepository;
 using BookCatalog.Models;
 using BookCatalog.Utility;
 using Microsoft.AspNetCore.Authentication;
@@ -34,6 +36,7 @@ namespace BookCatalogWeb.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IUnitOfWork _unitOfWork;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -41,7 +44,8 @@ namespace BookCatalogWeb.Areas.Identity.Pages.Account
 			IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -50,6 +54,7 @@ namespace BookCatalogWeb.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -110,8 +115,11 @@ namespace BookCatalogWeb.Areas.Identity.Pages.Account
             [Required]
             public string Name { get; set; }
             public string Role { get; set; }
+            public int? CompanyId { get; set; } 
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get;set; }
+            [ValidateNever]
+            public IEnumerable<SelectListItem> CompanyList { get;set; }
         }
 
 
@@ -126,7 +134,8 @@ namespace BookCatalogWeb.Areas.Identity.Pages.Account
             }
             Input = new()
             {
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(name => new SelectListItem() { Text = name, Value = name })
+                RoleList = _roleManager.Roles.Select(x => x.Name).Select(name => new SelectListItem() { Text = name, Value = name }),
+                CompanyList = _unitOfWork.CompanyRepo.GetAll().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() }),
             };
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -135,6 +144,7 @@ namespace BookCatalogWeb.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             Input.RoleList = _roleManager.Roles.Select(x => x.Name).Select(name => new SelectListItem() { Text = name, Value = name });
+            Input.CompanyList = _unitOfWork.CompanyRepo.GetAll().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() });
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -147,8 +157,12 @@ namespace BookCatalogWeb.Areas.Identity.Pages.Account
                 user.PostalCode = Input.PostalCode;
                 user.Name = Input.Name;
                 user.PhoneNumber = Input.PhoneNumber;
+                if (Input.Role == SD.Role_Company)
+                {
+                    user.CompanyId = Input.CompanyId;
+                }
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
+                
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

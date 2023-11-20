@@ -15,18 +15,25 @@ namespace BookCatalog.DataAccess.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }    
         public DbSet<Company> Companies { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Category>().HasData(new Category[]
             {
-                new () {Id = 1,DisplayOrder = 1, Name = "Action" },
-                new () {Id = 2,DisplayOrder = 2, Name = "SciFi" },
-                new () {Id = 4,DisplayOrder = 4, Name = "History"},
+                new () { Id = 1,DisplayOrder = 1, Name = "Action" },
+                new () { Id = 2,DisplayOrder = 2, Name = "SciFi" },
+                new () { Id = 4,DisplayOrder = 4, Name = "History"},
                 new() { Id = 3, DisplayOrder = 3, Name = "Adventure" },
                 new() { Id = 5, DisplayOrder = 5, Name = "Fantasy" },
                 new() { Id = 6, DisplayOrder = 6, Name = "Romance"}
+            });
+            modelBuilder.Entity<Company>().HasData(new Company[]
+            {
+                new Company() {Id = 1 ,Name = "Roshen", City = "Lviv", PhoneNumber = "123", State = "UA", PostalCode = "123", StreetAddress = "some address"},
+                new Company() {Id = 2 ,Name = "Svitoch", City = "Lviv", PhoneNumber = "123", State = "UA", PostalCode = "123", StreetAddress = "some address"},
+                new Company() {Id = 3 ,Name = "AVK", City = "Lviv", PhoneNumber = "123", State = "UA", PostalCode = "123", StreetAddress = "some address"},
             });
             modelBuilder.Entity<Product>().HasData(new Product[]
             {
