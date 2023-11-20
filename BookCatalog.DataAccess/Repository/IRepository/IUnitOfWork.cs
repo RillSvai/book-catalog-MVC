@@ -10,6 +10,7 @@ namespace BookCatalog.DataAccess.Repository.IRepository
     {
         public ICategoryRepository? CategoryRepo { get; }
         public IProductRepository? ProductRepo { get; }
+        public ICompanyRepository? CompanyRepo { get; }
         public void Save();
     }
 }
