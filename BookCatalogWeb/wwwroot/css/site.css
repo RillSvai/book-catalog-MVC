@@ -18,5 +18,9 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+.cart-index {
+    background: linear-gradient(to right, #ac9a9a, #ada1a1);
 }

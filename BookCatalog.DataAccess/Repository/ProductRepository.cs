@@ -18,10 +18,6 @@ namespace BookCatalog.DataAccess.Repository
         {
             _db.Update(product);
         }
-        public override IEnumerable<Product> GetAll() 
-        {
-            return _db.Products.Include("Category").ToList();
-        }
         public override Product? Get(Expression<Func<Product,bool>> filter, bool isTracked = true) 
         {
             return isTracked ? _db.Products.Include("Category").FirstOrDefault(filter)

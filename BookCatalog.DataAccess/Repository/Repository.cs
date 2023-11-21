@@ -1,5 +1,6 @@
 ﻿using BookCatalog.DataAccess.Data;
 using BookCatalog.DataAccess.Repository.IRepository;
+using BookCatalog.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -33,9 +34,18 @@ namespace BookCatalog.DataAccess.Repository
             return query.Where(filter).FirstOrDefault();
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string includeProperties = "")
         {
-            return _dbSet.ToList();
+            IQueryable<T> query = _dbSet;
+            if (filter is not null) 
+            {
+                query = query.Where(filter);
+            }
+            foreach (string property in includeProperties.Split(",", StringSplitOptions.RemoveEmptyEntries)) 
+            {
+                query = query.Include(property);
+            }
+            return query;
         }
 
         public void Remove(T entity)
@@ -47,5 +57,6 @@ namespace BookCatalog.DataAccess.Repository
         {
             _dbSet.RemoveRange(entities);
         }
+
     }
 }

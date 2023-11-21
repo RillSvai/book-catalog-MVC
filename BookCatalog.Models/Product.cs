@@ -26,20 +26,20 @@ namespace BookCatalog.Models
         [Required]
         [Range(0, 1000)]
         [Display(Name = "List Price")]
-        public double ListPrice { get; set; }
+        public decimal ListPrice { get; set; }
         [Required]
         [Range(0, 1000)]
         [Display (Name = "Price for 1-49")]
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         [Required]
         [Range(0, 1000)]
         [Display(Name = "Price for 50-99")]
-        public double Price50 { get; set; }
+        public decimal Price50 { get; set; }
 
         [Required]
         [Range(0, 1000)]
         [Display(Name = "Price for 100+")]
-        public double Price100 { get; set; }
+        public decimal Price100 { get; set; }
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         [ValidateNever]

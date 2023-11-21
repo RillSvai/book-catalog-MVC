@@ -32,7 +32,7 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
 			ProductVM productVM = new ProductVM()
 			{
 				Product = new Product(),
-				CategoryList = _unitOfWork.CategoryRepo!.GetAll().Select(category => new SelectListItem
+				CategoryList = _unitOfWork.CategoryRepo!.GetAll(includeProperties: "Category").Select(category => new SelectListItem
 				{
 					Text = category.Name,
 					Value = category.Id.ToString(),
@@ -40,7 +40,7 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
 			};
 			if (id != 0 && id != null) 
 			{
-				productVM.Product = _unitOfWork.ProductRepo.Get(category => category.Id == id);
+				productVM.Product = _unitOfWork.ProductRepo!.Get(category => category.Id == id)!;
 			}
 			return View(productVM);
 		}

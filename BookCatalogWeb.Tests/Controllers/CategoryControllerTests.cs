@@ -32,7 +32,7 @@ namespace BookCatalogWeb.Tests.Controller
             //Arrange
             List<Category> categories = A.Fake<List<Category>>();
             categories.Add(new Category { Id = 1, Name = "Test", DisplayOrder = 1 });
-            A.CallTo(() => _unitOfWork.CategoryRepo!.GetAll()).Returns(categories);
+            A.CallTo(() => _unitOfWork.CategoryRepo!.GetAll(null,"")).Returns(categories);
 
             //Act
             var result = _categoryController.Index();

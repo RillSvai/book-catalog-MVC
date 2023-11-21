@@ -38,10 +38,11 @@ namespace BookCatalogWeb.Areas.Customer.Controllers
         {
             ClaimsIdentity claimsIdentity = (ClaimsIdentity)User.Identity!;
             shoppingCart.Id = 0;
-            string userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+            string userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)!.Value;
             shoppingCart.ApplicationUserId = userId;
             _unitOfWork.ShoppingCartRepo!.Add(shoppingCart);
             _unitOfWork.Save();
+            TempData["success"] = "Cart successfully updated!";
 
             return RedirectToAction(nameof(Index));
         }
