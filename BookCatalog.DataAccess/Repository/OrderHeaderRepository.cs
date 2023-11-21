@@ -20,5 +20,35 @@ namespace BookCatalog.DataAccess.Repository
         {
             _db.OrderHeaders.Update(orderHeader);
         }
-    }
+
+		public void UpdateStatus(int id, string orderStatus, string? paymentStatus = null)
+		{
+            OrderHeader? orderHeader = Get(oh => oh.Id == id);
+            if (orderHeader is not null) 
+            {
+                orderHeader.OrderStatus = orderStatus;
+                if (!string.IsNullOrEmpty(paymentStatus)) 
+                {
+                    orderHeader.PaymentStatus = paymentStatus;
+                }
+            }
+		}
+
+		public void UpdateStripePaymentId(int id, string sessionId, string stripePaymentId)
+		{
+			OrderHeader? orderHeader = Get(oh => oh.Id == id);
+            if (orderHeader is not null) 
+            {
+                if (!string.IsNullOrEmpty(sessionId)) 
+                {
+                    orderHeader.SessionId = sessionId;
+                }
+                if (!string.IsNullOrEmpty (stripePaymentId)) 
+                {
+                    orderHeader.PaymentIntentId = stripePaymentId;
+                    orderHeader.PaymentDate = DateTime.Now;
+                }
+            }
+		}
+	}
 }
