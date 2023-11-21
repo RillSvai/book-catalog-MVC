@@ -18,6 +18,8 @@ namespace BookCatalog.DataAccess.Repository
             ProductRepo = new ProductRepository(db);
             CompanyRepo = new CompanyRepository(db);
             ShoppingCartRepo = new ShoppingCartRepository(db);
+            OrderDetailRepo = new OrderDetailRepository(db);
+            OrderHeaderRepo = new OrderHeaderRepository(db);
         }
         public ICategoryRepository? CategoryRepo { get; }
 
@@ -25,6 +27,10 @@ namespace BookCatalog.DataAccess.Repository
 
         public ICompanyRepository? CompanyRepo { get;}
         public IShoppingCartRepository ShoppingCartRepo { get; }
+
+        public IOrderDetailRepository OrderDetailRepo { get; }
+
+        public IOrderHeaderRepository OrderHeaderRepo { get; }
 
         public void Save()
         {
