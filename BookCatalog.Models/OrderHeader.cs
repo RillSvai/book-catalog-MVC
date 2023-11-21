@@ -19,6 +19,7 @@ namespace BookCatalog.Models
         public DateTime OrderDate {  get; set; }
         public DateTime ShippingDate { get; set; }
         public decimal OrderTotal { get; set; }
+
         public string? OrderStatus { get; set; }
         public string? PaymentStatus { get; set; }
         public string? TrackingNumber { get; set; }
@@ -26,7 +27,8 @@ namespace BookCatalog.Models
         
         public DateTime PaymentDate { get; set; }
 
-        public string PaymentIntentId {  get; set; }
+        public string? SessionId {  get; set; }
+        public string? PaymentIntentId {  get; set; }
 
         [Required]
         public string PhoneNumber {  get; set; }

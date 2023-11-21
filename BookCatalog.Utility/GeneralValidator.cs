@@ -5,7 +5,7 @@ namespace BookCatalog.Utility
 	{
 		public static bool IsStringTooShort (string? str, uint minLength) 
 		{
-			return Regex.Replace(str ?? "", @"[\s]", "").Length < 3;
+			return Regex.Replace(str ?? "", @"[\s]", "").Length < minLength;
 		}
 	}
 }
