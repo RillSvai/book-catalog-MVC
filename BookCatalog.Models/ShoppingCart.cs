@@ -23,7 +23,5 @@ namespace BookCatalog.Models
         [ForeignKey(nameof(ApplicationUserId))]
         [ValidateNever]
         public ApplicationUser ApplicationUser { get; set; }
-        [NotMapped]
-        public decimal Price {  get; set; }
     }
 }
