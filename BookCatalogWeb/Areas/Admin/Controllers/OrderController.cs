@@ -2,7 +2,9 @@
 using BookCatalog.Models;
 using BookCatalog.Models.ViewModels;
 using BookCatalog.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace BookCatalogWeb.Areas.Admin.Controllers
 {
@@ -10,6 +12,8 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
 	public class OrderController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
+        [BindProperty]
+        public OrderVM OrderVM { get; set; }
         public OrderController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -29,13 +33,18 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
 		}
         public IActionResult Details(int id)
         {
-            OrderVM orderVM = new()
+            OrderVM = new()
             {
                 OrderHeader = _unitOfWork.OrderHeaderRepo.GetAll(oh => oh.Id == id, "ApplicationUser").FirstOrDefault(),
                 OrderDetails = _unitOfWork.OrderDetailRepo.GetAll(od => od.OrderHeaderId == id, "Product")
             };
+            return View(OrderVM);
+        }
+        [HttpPost]
+        [Authorize(Roles = $"{SD.Role_Admin},{SD.Role_Employee}")]
+        public IActionResult UpdateOrderDetail(OrderVM orderVM) 
+        {
             return View(orderVM);
         }
-
-	}
+    }
 }
