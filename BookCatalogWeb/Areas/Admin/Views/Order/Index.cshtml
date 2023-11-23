@@ -1,74 +1,119 @@
 ﻿@model IEnumerable<OrderHeader>
 
+@{
+    string? status = Context.Request.Query["status"];
+    string pending = "text-primary";
+    string inprocess = "text-primary";
+    string completed = "text-primary";
+    string approved = "text-primary";
+    string all = "text-primary";
+
+    switch (status)
+    {
+        case "pending":
+            pending = "active text-white bg-primary";
+            break;
+        case "inprocess":
+            inprocess = "active text-white bg-primary";
+            break;
+        case "completed":
+            completed = "active text-white bg-primary";
+            break;
+        case "approved":
+            approved = "active text-white bg-primary";
+            break;
+        default:
+            all = "active text-white bg-primary";
+            break;
+
+    }
+}
 <div class="card shadow mt-4">
-	<div class="card-header mb-2 ml-0 border-0 py-3 rounded-top-2">
-		<div class="row">
-			<div class="col-6 text">
-				<h2 class="">
-					Order List
-				</h2>
-			</div>
-		</div>
-	</div>
-	<div class="card-body border-1 border-info p-0 rounded-bottom-3">
-		<table id="tblData" class="w-100 table table-primary table-bordered table-group-divider">
-			<thead>
-				<tr>
-					<th>
-						ID
-					</th>
-					<th>
-						Name
-					</th>
-					<th>
-						Phone number
-					</th>
-					<th>
-						Email
-					</th>
-					<th>
-						Status
-					</th>
-					<th>
-						Total
-					</th>
-					<th>
-						Data manipulation
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach(OrderHeader orderHeader in Model)
-				{
-					<tr>
-						<td style="width:5%">
-							@orderHeader.Id
-						</td>
-						<td style="width:15%">
-							@orderHeader.Name
-						</td>
-						<td style="width:20%">
-							@orderHeader.PhoneNumber
-						</td>
-						<td style="width:20%">
-							@orderHeader.ApplicationUser.Email
-						</td>
-						<td style="width:10%">
-							@orderHeader.OrderStatus
-						</td>
-						<td style="width:10%">
-							@orderHeader.OrderTotal
-						</td>
-						<td style="width:20%">
-							<div class="btn-group w-100" role="group">
-								<a class="btn btn-primary mx-2 rounded-1" asp-controller="Order" asp-action="Edit" asp-route-id="@orderHeader!.Id">
-									<i class="bi bi-pencil-square"></i> Edit
-								</a>
-							</div>
-						</td>
-					</tr>
-				}
-			</tbody>
-		</table>
-	</div>
+    <div class="card-header mb-2 ml-0 border-0 py-3 rounded-top-2">
+        <div class="row">
+            <div class="col-6 text">
+                <h2 class="">
+                    Order List
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border-1 border-info p-0 rounded-bottom-3">
+        <div class="d-flex justify-content-between pb-5 pt-2">
+            <span></span>
+            <ul class="list-group list-group-horizontal-sm">
+                <a style="text-decoration:none" asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="inprocess">
+                    <li class="list-group-item fw-bold @inprocess">In Process</li>
+                </a>
+                <a style="text-decoration:none" asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="pending">
+                    <li class="list-group-item @pending">Payment Pending</li>
+                </a>
+                <a style="text-decoration:none" asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="completed">
+                    <li class="list-group-item @completed">Completed</li>
+                </a>
+                <a style="text-decoration:none" asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="approved">
+                    <li class="list-group-item @approved">Approved</li>
+                </a>
+                <a style="text-decoration:none" asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="all">
+                    <li class="list-group-item @all">All</li>
+                </a>
+            </ul>
+        </div>
+        <table id="tblData" class="w-100 table table-primary table-bordered table-group-divider">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Phone number
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Total
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (OrderHeader orderHeader in Model)
+                {
+                    <tr>
+                        <td style="width:5%">
+                            @orderHeader.Id
+                        </td>
+                        <td style="width:15%">
+                            @orderHeader.Name
+                        </td>
+                        <td style="width:20%">
+                            @orderHeader.PhoneNumber
+                        </td>
+                        <td style="width:20%">
+                            @orderHeader.ApplicationUser.Email
+                        </td>
+                        <td style="width:10%">
+                            @orderHeader.OrderStatus
+                        </td>
+                        <td style="width:10%">
+                            @orderHeader.OrderTotal
+                        </td>
+                        <td style="width:20%">
+                            <div class="btn-group w-100" role="group">
+                                <a class="btn btn-primary mx-2 rounded-1" asp-controller="Order" asp-action="Details" asp-route-id="@orderHeader!.Id">
+                                    <i class="bi bi-info-square"></i> Details
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -9,6 +9,6 @@ namespace BookCatalog.Models.ViewModels
 	public class OrderVM
 	{
 	    public OrderHeader? OrderHeader { get; set; }
-		IEnumerable<OrderDetail>? OrderDetails { get; set; }
+		public IEnumerable<OrderDetail>? OrderDetails { get; set; }
 	}
 }
