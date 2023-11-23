@@ -1,10 +1,11 @@
 ﻿using BookCatalog.DataAccess.Repository.IRepository;
 using BookCatalog.Models;
-using Microsoft.AspNetCore.Hosting;
+using BookCatalog.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookCatalogWeb.Areas.Admin.Controllers
 {
+	[Area("Admin")]
 	public class OrderController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
@@ -14,16 +15,9 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
         }
         public IActionResult Index()
 		{
-			return View();
+            IEnumerable<OrderHeader> orderHeaders = _unitOfWork!.OrderHeaderRepo!.GetAll(includeProperties: "ApplicationUser");
+            return View(orderHeaders);
 		}
 
-		#region API Calls
-		[HttpGet]
-		public IActionResult GetAll()
-		{
-			List<OrderHeader> products = _unitOfWork!.OrderHeaderRepo!.GetAll(includeProperties: "ApplicationUser").ToList();
-			return Json(new { data = products });
-		}
-		#endregion
 	}
 }

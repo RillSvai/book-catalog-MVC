@@ -7,15 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\js\company.js" />
-    <Content Remove="wwwroot\js\product.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\js\product.js" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
@@ -35,11 +26,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\product\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\js\company.js" />
-    <None Include="wwwroot\js\product.js" />
   </ItemGroup>
 
   <ItemGroup>

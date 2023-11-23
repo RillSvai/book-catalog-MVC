@@ -25,14 +25,15 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
 		}
 		public IActionResult Index()
 		{
-			return View();
+			IEnumerable<Product> products = _unitOfWork.ProductRepo!.GetAll(includeProperties: "Category");
+			return View(products);
 		}
 		public IActionResult Upsert(int? id)
 		{
 			ProductVM productVM = new ProductVM()
 			{
 				Product = new Product(),
-				CategoryList = _unitOfWork.CategoryRepo!.GetAll(includeProperties: "Category").Select(category => new SelectListItem
+				CategoryList = _unitOfWork.CategoryRepo!.GetAll().Select(category => new SelectListItem
 				{
 					Text = category.Name,
 					Value = category.Id.ToString(),
@@ -98,31 +99,18 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
 				return View(productVM);
 			}
 		}
-		#region API Calls
-		[HttpDelete]
 		public IActionResult Delete(int? id)
 		{
 			Product? product = _unitOfWork.ProductRepo!.Get(product => product.Id == id);
-			if (product == null) 
-			{
-				return Json(new { success = false, message = "Error while deleting" });
-			}
 			string wwwRootPath = _webHostEnvironment.WebRootPath;
-			var oldImagePath = Path.Combine(wwwRootPath, product.ImageUrl.TrimStart('\\'));
+			var oldImagePath = Path.Combine(wwwRootPath, product!.ImageUrl.TrimStart('\\'));
 			if (System.IO.File.Exists(oldImagePath))
 			{
 				System.IO.File.Delete(oldImagePath);
 			}
 			_unitOfWork.ProductRepo.Remove(product);
 			_unitOfWork.Save();
-			return Json(new { success = true, message = "Delete successfull" });
+			return RedirectToAction(nameof(Index));
 		}
-		[HttpGet]
-		public IActionResult GetAll() 
-		{
-			List<Product> products = _unitOfWork!.ProductRepo!.GetAll().ToList();
-			return Json(new { data = products });
-		}
-		#endregion
 	}
 }

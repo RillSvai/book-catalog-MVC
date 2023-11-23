@@ -1,0 +1,74 @@
+﻿@model IEnumerable<OrderHeader>
+
+<div class="card shadow mt-4">
+	<div class="card-header mb-2 ml-0 border-0 py-3 rounded-top-2">
+		<div class="row">
+			<div class="col-6 text">
+				<h2 class="">
+					Order List
+				</h2>
+			</div>
+		</div>
+	</div>
+	<div class="card-body border-1 border-info p-0 rounded-bottom-3">
+		<table id="tblData" class="w-100 table table-primary table-bordered table-group-divider">
+			<thead>
+				<tr>
+					<th>
+						ID
+					</th>
+					<th>
+						Name
+					</th>
+					<th>
+						Phone number
+					</th>
+					<th>
+						Email
+					</th>
+					<th>
+						Status
+					</th>
+					<th>
+						Total
+					</th>
+					<th>
+						Data manipulation
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach(OrderHeader orderHeader in Model)
+				{
+					<tr>
+						<td style="width:5%">
+							@orderHeader.Id
+						</td>
+						<td style="width:15%">
+							@orderHeader.Name
+						</td>
+						<td style="width:20%">
+							@orderHeader.PhoneNumber
+						</td>
+						<td style="width:20%">
+							@orderHeader.ApplicationUser.Email
+						</td>
+						<td style="width:10%">
+							@orderHeader.OrderStatus
+						</td>
+						<td style="width:10%">
+							@orderHeader.OrderTotal
+						</td>
+						<td style="width:20%">
+							<div class="btn-group w-100" role="group">
+								<a class="btn btn-primary mx-2 rounded-1" asp-controller="Order" asp-action="Edit" asp-route-id="@orderHeader!.Id">
+									<i class="bi bi-pencil-square"></i> Edit
+								</a>
+							</div>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
