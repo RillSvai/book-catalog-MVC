@@ -16,7 +16,7 @@ namespace BookCatalogWeb.Areas.Customer.Controllers
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		[BindProperty]
-		public ShoppingCartVM ShoppingCartVM { get; set; }
+		public ShoppingCartVM? ShoppingCartVM { get; set; }
 		public CartController(IUnitOfWork unitOfWork)
 		{
 			_unitOfWork = unitOfWork;
@@ -58,10 +58,10 @@ namespace BookCatalogWeb.Areas.Customer.Controllers
 			ClaimsIdentity claimsIdentity = (ClaimsIdentity)User.Identity!;
 			string userId = claimsIdentity!.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 			IEnumerable<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCartRepo!.GetAll(sc => sc.ApplicationUserId == userId, "Product");
-			ShoppingCartVM.ShoppingCarts = shoppingCarts;
-			ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
-			ShoppingCartVM.OrderHeader.ApplicationUserId = userId;
-			ShoppingCartVM.OrderHeader.OrderTotal = shoppingCarts.Sum(sc => GetPriceBasedOnQuantity(sc) * sc.Count);
+			ShoppingCartVM!.ShoppingCarts = shoppingCarts;
+			ShoppingCartVM!.OrderHeader.OrderDate = DateTime.Now;
+			ShoppingCartVM!.OrderHeader.ApplicationUserId = userId;
+			ShoppingCartVM!.OrderHeader.OrderTotal = shoppingCarts.Sum(sc => GetPriceBasedOnQuantity(sc) * sc.Count);
 			bool isCustomer = _unitOfWork.ApplicationUserRepo.Get(au => au.Id == userId)!.CompanyId.GetValueOrDefault() == 0;
 			if (isCustomer)
 			{
@@ -130,7 +130,7 @@ namespace BookCatalogWeb.Areas.Customer.Controllers
 		public IActionResult OrderConfirmation(int id)
 		{
 			OrderHeader? orderHeader = _unitOfWork.OrderHeaderRepo.GetAll(oh => oh.Id == id, "ApplicationUser").FirstOrDefault();
-			if (orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment) 
+			if (orderHeader!.PaymentStatus != SD.PaymentStatusDelayedPayment) 
 			{
 				SessionService service = new SessionService();
 				Session session = service.Get(orderHeader.SessionId);
@@ -141,7 +141,7 @@ namespace BookCatalogWeb.Areas.Customer.Controllers
 					_unitOfWork.Save();
 				}
 			}
-			List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCartRepo.GetAll(sc => sc.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
+			List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCartRepo!.GetAll(sc => sc.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
 			_unitOfWork.ShoppingCartRepo.RemoveRange(shoppingCarts);
 			_unitOfWork.Save();
 			return View(id);

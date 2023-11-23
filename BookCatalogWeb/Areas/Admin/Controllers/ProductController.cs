@@ -77,7 +77,7 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
 				}
 				if (productVM.Product.Id != 0) 
 				{
-					_unitOfWork.ProductRepo.Update(productVM.Product);
+					_unitOfWork.ProductRepo!.Update(productVM.Product);
 					TempData["success"] = "Product updated successfully!";
 				}
 				else 
@@ -102,7 +102,7 @@ namespace BookCatalogWeb.Areas.Admin.Controllers
 		[HttpDelete]
 		public IActionResult Delete(int? id)
 		{
-			Product product = _unitOfWork.ProductRepo.Get(product => product.Id == id);
+			Product? product = _unitOfWork.ProductRepo!.Get(product => product.Id == id);
 			if (product == null) 
 			{
 				return Json(new { success = false, message = "Error while deleting" });
