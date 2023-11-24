@@ -8,10 +8,12 @@ using Stripe.Checkout;
 using Stripe;
 using System.Security.Claims;
 using static System.Net.WebRequestMethods;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookCatalogWeb.Areas.Customer.Controllers
 {
 	[Area("Customer")]
+	[Authorize]
 	public class CartController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;

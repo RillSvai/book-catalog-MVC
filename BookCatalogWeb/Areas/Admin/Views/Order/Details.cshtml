@@ -1,11 +1,12 @@
 ﻿@model OrderVM
 
 @{
-    bool isEditableForm = User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Customer);
+    bool isEditableForm = User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee);
     bool isAdmin = User.IsInRole(SD.Role_Admin);
 }
 <form method="post">
     <br />
+    <input hidden asp-for="OrderHeader!.Id"/>
     <div class="container">
         <div class="card">
             <div class="card-header bg-dark text-light ml-0">
@@ -100,7 +101,7 @@
                                 <div class="col-9">
                                     @if (isEditableForm)
                                     {
-                                        <input asp-for="OrderHeader!.Carrier" type="text" class="form-control" />
+                                        <input id="carrier" asp-for="OrderHeader!.Carrier" type="text" class="form-control" />
                                     }
                                     else
                                     {
@@ -113,7 +114,7 @@
                                 <div class="col-9">
                                     @if (isEditableForm)
                                     {
-                                        <input asp-for="OrderHeader!.TrackingNumber" type="text" class="form-control" />
+                                        <input id="tracking" asp-for="OrderHeader!.TrackingNumber" type="text" class="form-control" />
                                     }
                                     else
                                     {
@@ -158,7 +159,9 @@
                             </div>
                             @if (isEditableForm)
                             {
-                                <input type="submit" asp-action="UpdateOrderDetail" class="btn btn-warning form-control my-1" value="Update Order Details" />
+                                <button type="submit" asp-action="UpdateOrderDetail" class="btn btn-warning form-control my-1">
+                                    Update 
+                                </button>
                             }
                             
                         </div>
@@ -198,10 +201,37 @@
                                     </div>
                                 </li>
                             </ul>
-                            <input type="submit" class="btn btn-success form-control my-1" value="Pay Now" />
-                            <input type="submit" class="btn btn-primary form-control my-1" value="Start Processing" />
-                            <input type="submit" class="btn btn-primary form-control my-1" value="Ship Order" />
-                            <input type="submit" class="btn btn-danger form-control my-1" value="Cancel Order" />
+                            @if(Model.OrderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment
+                            && Model.OrderHeader.OrderStatus == SD.StatusShipped)
+                            {
+                                <button type="submit" class="btn btn-success form-control my-1">
+                                    Pay now
+                                </button>
+                            }
+                            @if (isEditableForm)
+                            {
+                                if (Model.OrderHeader.OrderStatus == SD.StatusApproved)
+                                {
+                                    <button type="submit" asp-action="StartProcessing" class="btn btn-primary form-control my-1">
+                                        Start processing
+                                    </button>
+                                }
+                            
+                                if (Model.OrderHeader.OrderStatus == SD.StatusInProcess)
+                                {
+                                    <button type="submit" asp-action="ShipOrder" onclick="return validateInput()" class="btn btn-primary form-control my-1">
+                                        Ship order
+                                    </button>
+                                }
+                                if (Model.OrderHeader.OrderStatus != SD.StatusRefunded
+                                && Model.OrderHeader.OrderStatus != SD.StatusShipped
+                                && Model.OrderHeader.OrderStatus != SD.StatusCancelled)
+                                {
+                                    <button type="submit" asp-action="CancelOrder" class="btn btn-danger form-control my-1">
+                                        Cancel order
+                                    </button>
+                                }               
+                            }       
                         </div>
                     </div>
                 </div>
@@ -212,4 +242,29 @@
 @section Scripts
     {
     <partial name="_ValidationScriptsPartial"></partial>
+    <script>
+        function validateInput() 
+        {
+            if (document.getElementById("carrier").value === "") 
+            {
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Please enter a carrier!',
+                    color: 'white'
+                });
+                $(".swal2-modal").css('background-color', '#2D4356');//Optional changes the color of the sweetalert
+                return false;
+            }
+            else if (document.getElementById("tracking").value === "") {
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Please enter a tracking number!',
+                    color: 'white'
+                })
+                $(".swal2-modal").css('background-color', '#2D4356');//Optional changes the color of the sweetalert
+                return false;
+            }
+            return true;
+        }
+    </script>
 }
