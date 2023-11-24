@@ -42,12 +42,14 @@
                     <label asp-for="Input.PostalCode">Postal code</label>
                     <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
                 </div>
-                <div class="form-floating mb-3 col-md-3">
-                    <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
-                        <option selected disabled>---Select Role---</option>
-                    </select>
-                </div>
-                
+                @if (User.IsInRole(SD.Role_Admin))
+                {
+                    <div class="form-floating mb-3 col-md-3">
+                        <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
+                            <option selected disabled>---Select Role---</option>
+                        </select>
+                    </div>
+                }
                 <div class="form-floating mb-3 col-md-9">
                     <input asp-for="Input.PhoneNumber" class="form-control" placeholder="your phone number" />
                     <label asp-for="Input.PhoneNumber">Phone Number</label>

@@ -1,10 +1,4 @@
-﻿@using Microsoft.AspNetCore
-@inject IHttpContextAccessor HttpContextAccessor
-
-@{
-    int? cartCount = HttpContextAccessor.HttpContext!.Session.GetInt32(SD.SessionCart);
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -49,13 +43,15 @@
                                     <li class="nav-item">
                                         <a class="nav-link text-white" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Register">Create new user</a>
+                                    </li>
                                 </ul>
                             </li>
                         }
                         <li class="nav-item">
                             <a class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Index">
-                                <i class="bi bi-cart" style="font-size:18px"></i> &nbsp;
-                                @(cartCount is null ? "(0)" : $"({cartCount})")
+                                @await Component.InvokeAsync("ShoppingCart")
                             </a>
                         </li>
                     </ul>

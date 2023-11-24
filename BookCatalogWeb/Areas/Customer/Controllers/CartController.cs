@@ -142,6 +142,7 @@ namespace BookCatalogWeb.Areas.Customer.Controllers
 					_unitOfWork.OrderHeaderRepo.UpdateStatus(id, SD.StatusApproved,SD.PaymentStatusApproved);
 					_unitOfWork.Save();
 				}
+				HttpContext.Session.Clear();
 			}
 			List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCartRepo!.GetAll(sc => sc.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
 			_unitOfWork.ShoppingCartRepo.RemoveRange(shoppingCarts);
