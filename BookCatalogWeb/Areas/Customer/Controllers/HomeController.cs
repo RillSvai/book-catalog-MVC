@@ -4,6 +4,8 @@ using BookCatalog.Models;
 using BookCatalog.DataAccess.Repository.IRepository;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using BookCatalog.Utility;
+using BookCatalog.Models.ViewModels;
 
 namespace BookCatalogWeb.Areas.Customer.Controllers
 {
@@ -19,6 +21,12 @@ namespace BookCatalogWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+            ClaimsIdentity claimsIdentity = (ClaimsIdentity)User.Identity!;
+            string? userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId is not null) 
+            {
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCartRepo.GetAll(sc => sc.ApplicationUserId == userId).Count());
+            }
             return View(_unitOfWork.ProductRepo!.GetAll().ToList());
         }
         public IActionResult Details(int id)
@@ -41,6 +49,7 @@ namespace BookCatalogWeb.Areas.Customer.Controllers
             shoppingCart.ApplicationUserId = userId;
             _unitOfWork.ShoppingCartRepo!.Add(shoppingCart);
             _unitOfWork.Save();
+            HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCartRepo.GetAll(sc => sc.ApplicationUserId == userId).Count());
             TempData["success"] = "Cart successfully updated!";
 
             return RedirectToAction(nameof(Index));

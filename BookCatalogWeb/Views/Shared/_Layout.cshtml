@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    int? cartCount = HttpContextAccessor.HttpContext!.Session.GetInt32(SD.SessionCart);
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -48,7 +54,8 @@
                         }
                         <li class="nav-item">
                             <a class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Index">
-                                <i class="bi bi-cart" style="font-size:18px"></i>
+                                <i class="bi bi-cart" style="font-size:18px"></i> &nbsp;
+                                @(cartCount is null ? "(0)" : $"({cartCount})")
                             </a>
                         </li>
                     </ul>

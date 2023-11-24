@@ -158,9 +158,11 @@ namespace BookCatalogWeb.Areas.Customer.Controllers
 		}
 		public IActionResult Minus(int cartId)
 		{
-			ShoppingCart changedCart = _unitOfWork.ShoppingCartRepo!.Get(sc => sc.Id == cartId)!;
+			ShoppingCart changedCart = _unitOfWork.ShoppingCartRepo!.Get(sc => sc.Id == cartId, isTracked: true)!;
 			if (changedCart.Count == 1)
 			{
+				HttpContext.Session.SetInt32(SD.SessionCart,
+			    _unitOfWork.ShoppingCartRepo.GetAll(sc => sc.ApplicationUserId == changedCart.ApplicationUserId).Count() - 1);
 				_unitOfWork.ShoppingCartRepo.Remove(changedCart);
 			}
 			else
@@ -173,9 +175,12 @@ namespace BookCatalogWeb.Areas.Customer.Controllers
 		}
 		public IActionResult Remove(int cartId)
 		{
-			ShoppingCart changedCart = _unitOfWork.ShoppingCartRepo!.Get(sc => sc.Id == cartId)!;
-			_unitOfWork.ShoppingCartRepo.Remove(changedCart);
-			_unitOfWork.Save();
+			ShoppingCart changedCart = _unitOfWork.ShoppingCartRepo!.Get(sc => sc.Id == cartId, true)!;
+            HttpContext.Session.SetInt32(SD.SessionCart,
+			_unitOfWork.ShoppingCartRepo.GetAll(sc => sc.ApplicationUserId == changedCart.ApplicationUserId).Count() - 1);
+            _unitOfWork.ShoppingCartRepo.Remove(changedCart);
+            _unitOfWork.ShoppingCartRepo.Remove(changedCart);
+            _unitOfWork.Save();
 			return RedirectToAction(nameof(Index));
 		}
 		private decimal GetPriceBasedOnQuantity(ShoppingCart shoppingCart) => shoppingCart.Count switch
