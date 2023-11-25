@@ -9,5 +9,7 @@ namespace BookCatalog.DataAccess.Repository.IRepository
 {
     public interface IApplicationUserRepository : IRepository<ApplicationUser>
     {
+        public void LockUnlock(string id);
+        public string GetRole(string id);
     }
 }

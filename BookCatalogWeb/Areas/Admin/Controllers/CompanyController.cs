@@ -4,9 +4,7 @@ using BookCatalog.Models.ViewModels;
 using BookCatalog.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections;
-using System.Data;
+
 
 namespace BookCatalogWeb.Areas.Admin.Controllers
 {
